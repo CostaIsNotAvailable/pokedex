@@ -26,6 +26,20 @@ public class PokemonService {
 		return toList(pokemonRepository.findAll());
 	}
 	
+	public PokemonDto getById(Integer id) {
+		return toDto(pokemonRepository.findById(id).get());
+	}
+	
+	public PokemonDto put(PokemonDto pokemon) {
+		return toDto(pokemonRepository.save(toEntity(pokemon)));
+	}
+	
+	public boolean delete(Integer id) {
+		return pokemonRepository.delete(id);
+	}
+	
+	//Mappers
+	
 	private PokemonDto toDto(Pokemon pokemon) {
 		return modelMapper.map(pokemon, PokemonDto.class);
 	}
