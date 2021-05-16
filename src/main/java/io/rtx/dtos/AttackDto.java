@@ -15,51 +15,51 @@ public class AttackDto {
 
 	private Integer cost;
 
-	private Integer getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	private void setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	private String getName() {
+	public String getName() {
 		return name;
 	}
 
-	private void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	private AttackType getType() {
+	public AttackType getType() {
 		return type;
 	}
 
-	private void setType(AttackType type) {
+	public void setType(AttackType type) {
 		this.type = type;
 	}
 
-	private Integer getPower() {
+	public Integer getPower() {
 		return power;
 	}
 
-	private void setPower(Integer power) {
+	public void setPower(Integer power) {
 		this.power = power;
 	}
 
-	private Integer getAccuracy() {
+	public Integer getAccuracy() {
 		return accuracy;
 	}
 
-	private void setAccuracy(Integer accuracy) {
+	public void setAccuracy(Integer accuracy) {
 		this.accuracy = accuracy;
 	}
 
-	private Integer getCost() {
+	public Integer getCost() {
 		return cost;
 	}
 
-	private void setCost(Integer cost) {
+	public void setCost(Integer cost) {
 		this.cost = cost;
 	}
 }

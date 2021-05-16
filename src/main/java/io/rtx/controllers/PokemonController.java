@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.rtx.dtos.LitePokemonDto;
 import io.rtx.dtos.PokemonDto;
+import io.rtx.entities.Attack;
 import io.rtx.services.PokemonService;
 
 @Controller
@@ -43,5 +44,10 @@ public class PokemonController {
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<PokemonDto> delete(@PathVariable Integer id) {
 		return pokemonService.delete(id) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping(path="/populate")
+	public @ResponseBody Collection<Attack> populate(){
+		return pokemonService.populate();
 	}
 }

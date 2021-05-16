@@ -18,5 +18,6 @@ public enum AttackType {
 	DRAGON,
 	DARK,
 	STEEL,
-	FAIRY
+	FAIRY,
+	SHADOW
 }

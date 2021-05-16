@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import io.rtx.dtos.LitePokemonDto;
 import io.rtx.dtos.PokemonDto;
+import io.rtx.entities.Attack;
 import io.rtx.entities.Pokemon;
 import io.rtx.repositories.PokemonRepository;
 
@@ -21,6 +22,9 @@ public class PokemonService {
 	
 	@Autowired 
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private PokeApiService pokeApiService;
 	
 	public Collection<LitePokemonDto> getAll(){
 		return toList(pokemonRepository.findAll());
@@ -36,6 +40,10 @@ public class PokemonService {
 	
 	public boolean delete(Integer id) {
 		return pokemonRepository.delete(id);
+	}
+	
+	public Collection<Attack> populate() {
+		return pokeApiService.getAttacks();
 	}
 	
 	//Mappers
