@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import io.rtx.enums.AttackType;
+import io.rtx.enums.Type;
 
 @Entity
 public class Attack {
@@ -18,7 +18,7 @@ public class Attack {
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
-	private AttackType type;
+	private Type type;
 	
 	private Integer power;
 	
@@ -42,11 +42,11 @@ public class Attack {
 		this.name = name;
 	}
 
-	public AttackType getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(AttackType type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 

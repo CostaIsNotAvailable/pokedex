@@ -1,6 +1,6 @@
 package io.rtx.enums;
 
-public enum AttackType {
+public enum Type {
 	NORMAL,
 	FIRE,
 	WATER,

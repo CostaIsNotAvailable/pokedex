@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import io.rtx.enums.AttackType;
+import io.rtx.enums.Type;
 
 @Entity
 public class Pokemon {
@@ -22,7 +22,7 @@ public class Pokemon {
 	private Integer health;
 	
 	@ElementCollection
-	private Collection<AttackType> types;
+	private Collection<Type> types;
 	
 	private String thumbnail;
 	
@@ -56,11 +56,11 @@ public class Pokemon {
 		this.health = health;
 	}
 
-	public Collection<AttackType> getTypes() {
+	public Collection<Type> getTypes() {
 		return types;
 	}
 
-	public void setTypes(Collection<AttackType> types) {
+	public void setTypes(Collection<Type> types) {
 		this.types = types;
 	}
 

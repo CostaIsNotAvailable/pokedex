@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.rtx.dtos.LitePokemonDto;
 import io.rtx.dtos.PokemonDto;
+import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
 import io.rtx.entities.Attack;
+import io.rtx.entities.Pokemon;
 import io.rtx.services.PokemonService;
 
 @Controller
@@ -47,7 +49,7 @@ public class PokemonController {
 	}
 	
 	@GetMapping(path="/populate")
-	public @ResponseBody Collection<Attack> populate(){
-		return pokemonService.populate();
+	public void populate(){
+		pokemonService.populate();
 	}
 }

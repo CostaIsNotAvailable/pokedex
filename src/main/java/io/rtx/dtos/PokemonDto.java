@@ -2,7 +2,7 @@ package io.rtx.dtos;
 
 import java.util.Collection;
 
-import io.rtx.enums.AttackType;
+import io.rtx.enums.Type;
 
 public class PokemonDto {
 	private Integer id;
@@ -11,7 +11,7 @@ public class PokemonDto {
 	
 	private Integer health;
 	
-	private Collection<AttackType> types;
+	private Collection<Type> types;
 	
 	private String thumbnail;
 	
@@ -43,11 +43,11 @@ public class PokemonDto {
 		this.health = health;
 	}
 
-	public Collection<AttackType> getTypes() {
+	public Collection<Type> getTypes() {
 		return types;
 	}
 
-	public void setTypes(Collection<AttackType> types) {
+	public void setTypes(Collection<Type> types) {
 		this.types = types;
 	}
 

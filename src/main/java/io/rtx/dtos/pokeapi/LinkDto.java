@@ -1,6 +1,6 @@
 package io.rtx.dtos.pokeapi;
 
-public class LanguageDto {
+public class LinkDto {
 	private String name;
 	
 	private String url;

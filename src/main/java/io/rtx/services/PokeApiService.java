@@ -4,43 +4,54 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import io.rtx.dtos.pokeapi.ListItemDto;
+import io.rtx.dtos.pokeapi.LinkDto;
 import io.rtx.dtos.pokeapi.MoveDto;
+import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
+import io.rtx.dtos.pokeapi.PokemonDto;
 import io.rtx.dtos.pokeapi.ListDto;
 import io.rtx.entities.Attack;
-import io.rtx.enums.AttackType;
+import io.rtx.entities.Pokemon;
+import io.rtx.enums.Type;
 
 @Service
 public class PokeApiService {
 	public static final String movesListUrl = "https://pokeapi.co/api/v2/move?limit=-1";
+	public static final String pokemonsListUrl = "https://pokeapi.co/api/v2/pokemon?limit=-1";
 	
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	public Collection<Attack> getAttacks(){
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	public Collection<MoveDto> getMoves(){
 		ListDto movesList = restTemplate.getForObject(movesListUrl, ListDto.class);
-		Collection<ListItemDto> moves = movesList.getResults();
+		Collection<LinkDto> movesUrls = movesList.getResults();
 		
-		Collection<Attack> attacks = new ArrayList<Attack>();
-		moves.forEach(m -> {
+		Collection<MoveDto> moves = new ArrayList<MoveDto>();
+		movesUrls.forEach(m -> {
 			MoveDto move = restTemplate.getForObject(m.getUrl(), MoveDto.class);
-			attacks.add(moveDtoToAttack(move));
+			moves.add(move);
 		});
-		return attacks;
+		return moves;
 	}
 	
-	private Attack moveDtoToAttack(MoveDto moveDto) {
-		Attack attack = new Attack();
-		attack.setId(moveDto.getId());
-		attack.setName(moveDto.getNames().stream().filter(i -> i.getLanguage().getName().equals("fr")).collect(Collectors.toList()).get(0).getName());
-		attack.setType(AttackType.valueOf(moveDto.getType().getName().toUpperCase()));
-		attack.setPower(moveDto.getPower());
-		attack.setAccuracy(moveDto.getAccuracy());
-		attack.setCost(0);
-		return attack;
+	public Collection<PokemonDto> getPokemons(){
+		ListDto pokemonsList = restTemplate.getForObject(pokemonsListUrl,ListDto.class);
+		Collection<LinkDto> pokemonsUrls = pokemonsList.getResults();
+		
+		Collection<PokemonDto> pokemons = new ArrayList<PokemonDto>();
+		pokemonsUrls.forEach(p -> {
+			PokemonDto pokemonDto = restTemplate.getForObject(p.getUrl(), PokemonDto.class);
+			pokemons.add(pokemonDto);
+		});
+		return pokemons;
 	}
+	
+	//Mappers
 }

@@ -11,7 +11,7 @@ public class MoveDto {
 	
 	private Integer power;
 	
-	private TypeDto type;
+	private LinkDto type;
 	
 	public Integer getId() {
 		return id;
@@ -45,11 +45,11 @@ public class MoveDto {
 		this.power = power;
 	}
 
-	public TypeDto getType() {
+	public LinkDto getType() {
 		return type;
 	}
 
-	public void setType(TypeDto type) {
+	public void setType(LinkDto type) {
 		this.type = type;
 	}
 }

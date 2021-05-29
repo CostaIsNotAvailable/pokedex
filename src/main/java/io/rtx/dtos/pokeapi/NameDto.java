@@ -1,15 +1,15 @@
 package io.rtx.dtos.pokeapi;
 
 public class NameDto {
-	private LanguageDto language;
+	private LinkDto language;
 	
 	private String name;
 
-	public LanguageDto getLanguage() {
+	public LinkDto getLanguage() {
 		return language;
 	}
 
-	public void setLanguage(LanguageDto language) {
+	public void setLanguage(LinkDto language) {
 		this.language = language;
 	}
 

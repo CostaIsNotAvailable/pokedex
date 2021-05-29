@@ -1,23 +1,23 @@
 package io.rtx.dtos.pokeapi;
 
 public class TypeDto {
-	private String name;
+	private Integer slot;
 	
-	private String url;
+	private LinkDto type;
 
-	public String getName() {
-		return name;
+	public Integer getSlot() {
+		return slot;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSlot(Integer slot) {
+		this.slot = slot;
 	}
 
-	public String getUrl() {
-		return url;
+	public LinkDto getType() {
+		return type;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setType(LinkDto type) {
+		this.type = type;
 	}
 }

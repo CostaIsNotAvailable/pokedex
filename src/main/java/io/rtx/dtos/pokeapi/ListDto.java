@@ -9,7 +9,7 @@ public class ListDto {
 	
 	private String previous;
 	
-	private Collection<ListItemDto> results;
+	private Collection<LinkDto> results;
 
 	public Integer getCount() {
 		return count;
@@ -35,11 +35,11 @@ public class ListDto {
 		this.previous = previous;
 	}
 
-	public Collection<ListItemDto> getResults() {
+	public Collection<LinkDto> getResults() {
 		return results;
 	}
 
-	public void setResults(Collection<ListItemDto> results) {
+	public void setResults(Collection<LinkDto> results) {
 		this.results = results;
 	}
 }

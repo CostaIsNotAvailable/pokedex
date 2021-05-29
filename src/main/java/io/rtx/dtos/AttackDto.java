@@ -1,13 +1,13 @@
 package io.rtx.dtos;
 
-import io.rtx.enums.AttackType;
+import io.rtx.enums.Type;
 
 public class AttackDto {
 	private Integer id;
 
 	private String name;
 	
-	private AttackType type;
+	private Type type;
 	
 	private Integer power;
 	
@@ -31,11 +31,11 @@ public class AttackDto {
 		this.name = name;
 	}
 
-	public AttackType getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(AttackType type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
