@@ -3,6 +3,8 @@ package io.rtx.services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -12,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 
 import io.rtx.dtos.LitePokemonDto;
 import io.rtx.dtos.PokemonDto;
+import io.rtx.dtos.pokeapi.ChainDto;
+import io.rtx.dtos.pokeapi.EvolutionChainDto;
 import io.rtx.dtos.pokeapi.MoveDto;
 import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
 import io.rtx.entities.Attack;
@@ -53,7 +57,7 @@ public class PokemonService {
 		return pokemonRepository.delete(id);
 	}
 	
-	public void populate() {
+	public Collection<EvolutionChainDto> populate() {
 		//Attacks
 		Collection<MoveDto> moves = pokeApiService.getMoves();
 		Collection<Attack> attacks = new ArrayList<Attack>();
@@ -65,6 +69,43 @@ public class PokemonService {
 		Collection<Pokemon> pokemons = new ArrayList<Pokemon>();
 		pokemonsDto.forEach(pokemon -> pokemons.add(pokemonDtoToPokemon(pokemon)));
 		pokemonRepository.saveAll(pokemons);
+		
+		Collection<EvolutionChainDto> evolutionChains = pokeApiService.getEvolutionChains();
+		System.out.println("Ici");
+		evolutionChains.forEach(e -> {
+			saveAssociations(e.getChain());
+		});
+		
+		return evolutionChains;
+	}
+	
+	//Evolution chain associations
+	private void saveAssociations(ChainDto chain) {
+		if(chain.getEvolves_to().isEmpty()) {
+			return;
+		}
+		
+		Integer currentPokemonId = getPokemonIdFromSpeciesUrl(chain.getSpecies().getUrl());
+		System.out.println("Treating pokemon with id " + currentPokemonId);
+		Pokemon currentPokemon = pokemonRepository.findById(currentPokemonId).get();
+		
+		Collection<Pokemon> childPokemonList = new ArrayList<Pokemon>();
+		chain.getEvolves_to().forEach(c -> {
+			Integer childPokemonId = getPokemonIdFromSpeciesUrl(c.getSpecies().getUrl());
+			Pokemon childPokemon = pokemonRepository.findById(childPokemonId).get();
+			childPokemonList.add(childPokemon);
+		});
+		
+		currentPokemon.setEvolutions(childPokemonList);
+		pokemonRepository.save(currentPokemon);
+		
+		chain.getEvolves_to().forEach(c -> saveAssociations(c));
+	}
+	
+	private Integer getPokemonIdFromSpeciesUrl(String url) {
+		Pattern getPokemonIdPattern = Pattern.compile("(?<=https://pokeapi.co/api/v2/pokemon-species/)(.*)(?=/)");
+		Matcher m = getPokemonIdPattern.matcher(url);
+		return m.find() ? Integer.parseInt(m.group(0)) : -1;
 	}
 	
 	//Mappers

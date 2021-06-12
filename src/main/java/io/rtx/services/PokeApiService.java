@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import io.rtx.dtos.pokeapi.EvolutionChainDto;
 import io.rtx.dtos.pokeapi.LinkDto;
 import io.rtx.dtos.pokeapi.MoveDto;
 import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
@@ -22,6 +23,7 @@ import io.rtx.enums.Type;
 public class PokeApiService {
 	public static final String movesListUrl = "https://pokeapi.co/api/v2/move?limit=-1";
 	public static final String pokemonsListUrl = "https://pokeapi.co/api/v2/pokemon?limit=-1";
+	public static final String evolutionChainsListUrl = "https://pokeapi.co/api/v2/evolution-chain?limit=10";
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -53,5 +55,16 @@ public class PokeApiService {
 		return pokemons;
 	}
 	
-	//Mappers
+	public Collection<EvolutionChainDto> getEvolutionChains(){
+		ListDto evolutionChainsList = restTemplate.getForObject(evolutionChainsListUrl, ListDto.class);
+		Collection<LinkDto> evolutionChainsUrls = evolutionChainsList.getResults();
+		
+		Collection<EvolutionChainDto> evolutionChains = new ArrayList<EvolutionChainDto>();
+		evolutionChainsUrls.forEach(e -> {
+			EvolutionChainDto evolutionChainDto = restTemplate.getForObject(e.getUrl(), EvolutionChainDto.class);
+			evolutionChains.add(evolutionChainDto);
+		});
+		
+		return evolutionChains;
+	}
 }

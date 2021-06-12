@@ -9,7 +9,7 @@ public class PokemonSpeciesDto {
 	
 	private Collection<NameDto> names;
 	
-	private UrlDto evolution_chain;
+	private LinkDto evolution_chain;
 	
 	private LinkDto evolves_from_species;
 
@@ -37,11 +37,11 @@ public class PokemonSpeciesDto {
 		this.names = names;
 	}
 
-	public UrlDto getEvolution_chain() {
+	public LinkDto getEvolution_chain() {
 		return evolution_chain;
 	}
 
-	public void setEvolution_chain(UrlDto evolution_chain) {
+	public void setEvolution_chain(LinkDto evolution_chain) {
 		this.evolution_chain = evolution_chain;
 	}
 
