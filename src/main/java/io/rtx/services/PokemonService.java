@@ -20,6 +20,7 @@ import io.rtx.dtos.pokeapi.MoveDto;
 import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
 import io.rtx.entities.Attack;
 import io.rtx.entities.Pokemon;
+import io.rtx.enums.Type;
 import io.rtx.repositories.AttackRepository;
 import io.rtx.repositories.PokemonRepository;
 
@@ -41,8 +42,8 @@ public class PokemonService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	public Collection<LitePokemonDto> getAll(){
-		return toList(pokemonRepository.findAll());
+	public Collection<LitePokemonDto> getAll(Type type){
+		return toList(pokemonRepository.findAll(type));
 	}
 	
 	public PokemonDto getById(Integer id) {

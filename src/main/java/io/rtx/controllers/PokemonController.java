@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.rtx.dtos.LitePokemonDto;
@@ -20,6 +21,7 @@ import io.rtx.dtos.pokeapi.EvolutionChainDto;
 import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
 import io.rtx.entities.Attack;
 import io.rtx.entities.Pokemon;
+import io.rtx.enums.Type;
 import io.rtx.services.PokemonService;
 
 @Controller
@@ -30,8 +32,8 @@ public class PokemonController {
 	private PokemonService pokemonService;
 	
 	@GetMapping
-	public @ResponseBody Collection<LitePokemonDto> getAll(){
-		return pokemonService.getAll();
+	public @ResponseBody Collection<LitePokemonDto> getAll(@RequestParam(required=false) Type type){
+		return pokemonService.getAll(type);
 	}
 	
 	@GetMapping(path="/{id}")
