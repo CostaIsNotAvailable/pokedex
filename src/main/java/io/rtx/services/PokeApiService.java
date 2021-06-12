@@ -2,9 +2,7 @@ package io.rtx.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,12 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import io.rtx.dtos.pokeapi.EvolutionChainDto;
 import io.rtx.dtos.pokeapi.LinkDto;
 import io.rtx.dtos.pokeapi.MoveDto;
-import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
 import io.rtx.dtos.pokeapi.PokemonDto;
 import io.rtx.dtos.pokeapi.ListDto;
-import io.rtx.entities.Attack;
-import io.rtx.entities.Pokemon;
-import io.rtx.enums.Type;
 
 @Service
 public class PokeApiService {
@@ -27,9 +21,6 @@ public class PokeApiService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
-	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	public Collection<MoveDto> getMoves(){
 		ListDto movesList = restTemplate.getForObject(movesListUrl, ListDto.class);

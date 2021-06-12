@@ -8,13 +8,10 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.spi.MappingContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
 
 import io.rtx.dtos.pokeapi.LinkDto;
 import io.rtx.dtos.pokeapi.MoveDto;
 import io.rtx.dtos.pokeapi.NameDto;
-import io.rtx.dtos.pokeapi.PokemonSpeciesDto;
 import io.rtx.dtos.pokeapi.StatDto;
 import io.rtx.dtos.pokeapi.TypeDto;
 import io.rtx.entities.Attack;
