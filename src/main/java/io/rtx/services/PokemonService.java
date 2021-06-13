@@ -142,7 +142,6 @@ public class PokemonService {
 	}
 	
 	//Mappers
-	
 	private PokemonDto toDto(Pokemon pokemon) {
 		return modelMapper.map(pokemon, PokemonDto.class);
 	}

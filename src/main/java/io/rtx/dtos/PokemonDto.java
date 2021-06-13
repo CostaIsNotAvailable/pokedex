@@ -19,6 +19,8 @@ public class PokemonDto {
 	
 	private Collection<AttackDto> attacks;
 	
+	private String description;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -73,5 +75,13 @@ public class PokemonDto {
 
 	public void setAttacks(Collection<AttackDto> attacks) {
 		this.attacks = attacks;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

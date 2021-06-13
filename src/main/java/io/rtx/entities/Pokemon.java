@@ -33,6 +33,8 @@ public class Pokemon {
 	@ManyToMany
 	private Collection<Attack> attacks;
 	
+	private String description;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -87,5 +89,13 @@ public class Pokemon {
 
 	public void setAttacks(Collection<Attack> attacks) {
 		this.attacks = attacks;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
