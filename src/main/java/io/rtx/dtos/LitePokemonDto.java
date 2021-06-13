@@ -4,6 +4,8 @@ public class LitePokemonDto {
 	private Integer id;
 	
 	private String name;
+	
+	private String thumbnail;
 
 	public Integer getId() {
 		return id;
@@ -19,5 +21,13 @@ public class LitePokemonDto {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 }
