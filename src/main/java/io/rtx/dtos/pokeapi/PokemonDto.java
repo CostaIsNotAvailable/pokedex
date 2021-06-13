@@ -14,6 +14,8 @@ public class PokemonDto {
 	private Collection<StatDto> stats;
 	
 	private Collection<TypeDto> types;
+	
+	private SpriteDto sprites;
 
 	public Integer getId() {
 		return id;
@@ -61,5 +63,13 @@ public class PokemonDto {
 
 	public void setTypes(Collection<TypeDto> types) {
 		this.types = types;
+	}
+
+	public SpriteDto getSprites() {
+		return sprites;
+	}
+
+	public void setSprites(SpriteDto sprites) {
+		this.sprites = sprites;
 	}
 }

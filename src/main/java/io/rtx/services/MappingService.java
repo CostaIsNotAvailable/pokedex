@@ -47,6 +47,7 @@ public class MappingService {
 				map(source.getId(), destination.getId());
 				using(getHealthFromStats).map(source.getStats(), destination.getHealth());
 				using(typeDtoCollectionToEnumCollection).map(source.getTypes(), destination.getTypes());
+				map(source.getSprites().getFront_default(), destination.getThumbnail());
 			}
 		});
 	}
