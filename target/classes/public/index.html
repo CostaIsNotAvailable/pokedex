@@ -8,12 +8,14 @@
 <body>
   <div id="app">
     <v-app>
-    <v-toolbar color="cyan" dark>
-        <v-toolbar-title>Pokédex</v-toolbar-title>
-    </v-toolbar>
-      <v-main>
-        <router-view></router-view>
-      </v-main>
+        <v-toolbar-title class="mx-6 my-3">Pokédex</v-toolbar-title>
+        <v-divider></v-divider>
+
+        <v-main>
+            <v-container>
+                <router-view></router-view>
+            </v-container>
+        </v-main> 
     </v-app>
   </div>
 
@@ -22,20 +24,23 @@
   <script src="https://unpkg.com/vue-router@2.0.0"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="./list.vue.js"></script>
+  <script src="./detail.vue.js"></script>
+  <script src="./types.js"></script>
   <script>
     Vue.component("List", List)
+    Vue.component("Detail", Detail)
 
     const routes = [
         {
         path: "/",
         component: List,
         },
+        {
+        path: "/:id",
+        component: Detail,
+        },
         // {
-        // path: "/{id}",
-        // component: Detail,
-        // },
-        // {
-        // path: "/{id}/edit",
+        // path: "/:id/edit",
         // component: Form,
         // }
     ];
