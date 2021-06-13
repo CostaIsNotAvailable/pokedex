@@ -12,7 +12,7 @@ import io.rtx.enums.Type;
 @Entity
 public class Attack {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
 	private String name;

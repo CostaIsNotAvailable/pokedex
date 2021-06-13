@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import io.rtx.enums.Type;
@@ -14,7 +15,7 @@ import io.rtx.enums.Type;
 @Entity
 public class Pokemon {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
 	private String name;
@@ -29,7 +30,7 @@ public class Pokemon {
 	@OneToMany
 	private Collection<Pokemon> evolutions;
 	
-	@OneToMany
+	@ManyToMany
 	private Collection<Attack> attacks;
 	
 	public Integer getId() {

@@ -17,7 +17,7 @@ import io.rtx.dtos.pokeapi.ListDto;
 public class PokeApiService {
 	public static final String movesListUrl = "https://pokeapi.co/api/v2/move?limit=-1";
 	public static final String pokemonsListUrl = "https://pokeapi.co/api/v2/pokemon?limit=-1";
-	public static final String evolutionChainsListUrl = "https://pokeapi.co/api/v2/evolution-chain?limit=10";
+	public static final String evolutionChainsListUrl = "https://pokeapi.co/api/v2/evolution-chain?limit=-1";
 	
 	@Autowired
 	private RestTemplate restTemplate;

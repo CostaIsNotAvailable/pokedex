@@ -71,23 +71,49 @@ public class PokemonService {
 		pokemonsDto.forEach(pokemon -> pokemons.add(pokemonDtoToPokemon(pokemon)));
 		pokemonRepository.saveAll(pokemons);
 		
+		//Attack associations
+		moves.forEach(move -> {
+			if(!attackRepository.existsById(move.getId())) {
+				return;
+			}
+			
+			Attack attack = attackRepository.findById(move.getId()).get();
+			move.getLearned_by_pokemon().forEach(p -> {
+				Integer pokemonId = getPokemonIdFromPokemonUrl(p.getUrl());
+				if(!pokemonRepository.existsById(pokemonId)) {
+					return;
+				}
+				
+				Pokemon pokemon = pokemonRepository.findById(pokemonId).get();
+	
+				if(pokemon.getAttacks() == null) {
+					Collection<Attack> pokemonAttacks = new ArrayList<Attack>();
+					pokemonAttacks.add(attack);
+					pokemon.setAttacks(pokemonAttacks);
+				}else {
+					pokemon.getAttacks().add(attack);
+				}
+				
+				pokemonRepository.save(pokemon);
+			});
+		});
+		
+		//Evolution chains associations
 		Collection<EvolutionChainDto> evolutionChains = pokeApiService.getEvolutionChains();
-		System.out.println("Ici");
 		evolutionChains.forEach(e -> {
-			saveAssociations(e.getChain());
+			saveEvolutionAssociations(e.getChain());
 		});
 		
 		return evolutionChains;
 	}
 	
 	//Evolution chain associations
-	private void saveAssociations(ChainDto chain) {
+	private void saveEvolutionAssociations(ChainDto chain) {
 		if(chain.getEvolves_to().isEmpty()) {
 			return;
 		}
 		
 		Integer currentPokemonId = getPokemonIdFromSpeciesUrl(chain.getSpecies().getUrl());
-		System.out.println("Treating pokemon with id " + currentPokemonId);
 		Pokemon currentPokemon = pokemonRepository.findById(currentPokemonId).get();
 		
 		Collection<Pokemon> childPokemonList = new ArrayList<Pokemon>();
@@ -100,11 +126,17 @@ public class PokemonService {
 		currentPokemon.setEvolutions(childPokemonList);
 		pokemonRepository.save(currentPokemon);
 		
-		chain.getEvolves_to().forEach(c -> saveAssociations(c));
+		chain.getEvolves_to().forEach(c -> saveEvolutionAssociations(c));
 	}
 	
 	private Integer getPokemonIdFromSpeciesUrl(String url) {
 		Pattern getPokemonIdPattern = Pattern.compile("(?<=https://pokeapi.co/api/v2/pokemon-species/)(.*)(?=/)");
+		Matcher m = getPokemonIdPattern.matcher(url);
+		return m.find() ? Integer.parseInt(m.group(0)) : -1;
+	}
+	
+	private Integer getPokemonIdFromPokemonUrl(String url) {
+		Pattern getPokemonIdPattern = Pattern.compile("(?<=https://pokeapi.co/api/v2/pokemon/)(.*)(?=/)");
 		Matcher m = getPokemonIdPattern.matcher(url);
 		return m.find() ? Integer.parseInt(m.group(0)) : -1;
 	}

@@ -13,6 +13,8 @@ public class MoveDto {
 	
 	private LinkDto type;
 	
+	private Collection<LinkDto> learned_by_pokemon;
+
 	public Integer getId() {
 		return id;
 	}
@@ -51,5 +53,13 @@ public class MoveDto {
 
 	public void setType(LinkDto type) {
 		this.type = type;
+	}
+	
+	public Collection<LinkDto> getLearned_by_pokemon() {
+		return learned_by_pokemon;
+	}
+
+	public void setLearned_by_pokemon(Collection<LinkDto> learned_by_pokemon) {
+		this.learned_by_pokemon = learned_by_pokemon;
 	}
 }
