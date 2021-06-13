@@ -58,53 +58,31 @@ public class PokemonService {
 		return pokemonRepository.delete(id);
 	}
 	
-	public Collection<EvolutionChainDto> populate() {
-		//Attacks
-		Collection<MoveDto> moves = pokeApiService.getMoves();
-		Collection<Attack> attacks = new ArrayList<Attack>();
-		moves.forEach(move -> attacks.add(moveDtoToAttack(move)));
-		attackRepository.saveAll(attacks);
-		
-		//Pokemons
-		Collection<io.rtx.dtos.pokeapi.PokemonDto> pokemonsDto = pokeApiService.getPokemons();
-		Collection<Pokemon> pokemons = new ArrayList<Pokemon>();
-		pokemonsDto.forEach(pokemon -> pokemons.add(pokemonDtoToPokemon(pokemon)));
-		pokemonRepository.saveAll(pokemons);
-		
-		//Attack associations
-		moves.forEach(move -> {
-			if(!attackRepository.existsById(move.getId())) {
-				return;
-			}
+	public boolean populate() {
+		try {
+			//Attacks
+			Collection<MoveDto> moves = pokeApiService.getMoves();
+			Collection<Attack> attacks = new ArrayList<Attack>();
+			moves.forEach(move -> attacks.add(moveDtoToAttack(move)));
+			attackRepository.saveAll(attacks);
 			
-			Attack attack = attackRepository.findById(move.getId()).get();
-			move.getLearned_by_pokemon().forEach(p -> {
-				Integer pokemonId = getPokemonIdFromPokemonUrl(p.getUrl());
-				if(!pokemonRepository.existsById(pokemonId)) {
-					return;
-				}
-				
-				Pokemon pokemon = pokemonRepository.findById(pokemonId).get();
-	
-				if(pokemon.getAttacks() == null) {
-					Collection<Attack> pokemonAttacks = new ArrayList<Attack>();
-					pokemonAttacks.add(attack);
-					pokemon.setAttacks(pokemonAttacks);
-				}else {
-					pokemon.getAttacks().add(attack);
-				}
-				
-				pokemonRepository.save(pokemon);
-			});
-		});
-		
-		//Evolution chains associations
-		Collection<EvolutionChainDto> evolutionChains = pokeApiService.getEvolutionChains();
-		evolutionChains.forEach(e -> {
-			saveEvolutionAssociations(e.getChain());
-		});
-		
-		return evolutionChains;
+			//Pokemons
+			Collection<io.rtx.dtos.pokeapi.PokemonDto> pokemonsDto = pokeApiService.getPokemons();
+			Collection<Pokemon> pokemons = new ArrayList<Pokemon>();
+			pokemonsDto.forEach(pokemon -> pokemons.add(pokemonDtoToPokemon(pokemon)));
+			pokemonRepository.saveAll(pokemons);
+			
+			//Attack associations
+			moves.forEach(move -> saveAttackAssociations(move));
+			
+			//Evolution chains associations
+			Collection<EvolutionChainDto> evolutionChains = pokeApiService.getEvolutionChains();
+			evolutionChains.forEach(e -> saveEvolutionAssociations(e.getChain()));
+			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	//Evolution chain associations
@@ -127,6 +105,32 @@ public class PokemonService {
 		pokemonRepository.save(currentPokemon);
 		
 		chain.getEvolves_to().forEach(c -> saveEvolutionAssociations(c));
+	}
+	
+	private void saveAttackAssociations(MoveDto move) {
+		if(!attackRepository.existsById(move.getId())) {
+			return;
+		}
+		
+		Attack attack = attackRepository.findById(move.getId()).get();
+		move.getLearned_by_pokemon().forEach(p -> {
+			Integer pokemonId = getPokemonIdFromPokemonUrl(p.getUrl());
+			if(!pokemonRepository.existsById(pokemonId)) {
+				return;
+			}
+			
+			Pokemon pokemon = pokemonRepository.findById(pokemonId).get();
+
+			if(pokemon.getAttacks() == null) {
+				Collection<Attack> pokemonAttacks = new ArrayList<Attack>();
+				pokemonAttacks.add(attack);
+				pokemon.setAttacks(pokemonAttacks);
+			}else {
+				pokemon.getAttacks().add(attack);
+			}
+			
+			pokemonRepository.save(pokemon);
+		});
 	}
 	
 	private Integer getPokemonIdFromSpeciesUrl(String url) {

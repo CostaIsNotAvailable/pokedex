@@ -49,8 +49,8 @@ public class PokemonController {
 	}
 	
 	@GetMapping(path="/populate")
-	public @ResponseBody Collection<EvolutionChainDto> populate(){
-		return pokemonService.populate();
+	public ResponseEntity<PokemonDto> populate(){
+		return pokemonService.populate() ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 }
